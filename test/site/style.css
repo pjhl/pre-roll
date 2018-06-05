@@ -1,0 +1,13 @@
+.player {
+  width: 500px;
+  height: 300px;
+  border: 1px solid #75c9e3;
+}
+.video {
+  width: 100%;
+  height: 100%;
+  background-color: rgb(221, 228, 218);
+  font-size: 30px;
+  text-align: center;
+  line-height: 300px;
+}
