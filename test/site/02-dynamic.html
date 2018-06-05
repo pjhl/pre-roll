@@ -29,8 +29,26 @@
         },
         active: '1',
         changeSelector: '.serie-change',
-        playerSelector: '.player'
+        playerSelector: '.player',
+        onChange: function (args) {
+          if (window.preRoll) {
+            window.preRoll.initialize()
+          }
+        }
       })
+    </script>
+    <script src="PreRoll.min.js"></script>
+    <script>
+      var preRoll = new PreRoll({
+        selector: '.player'
+      })
+      preRoll.on('startAd', function() {
+        playerStub.lock()
+      })
+      preRoll.on('stopAd', function() {
+        playerStub.unlock()
+      })
+      window.preRoll = preRoll
     </script>
   </body>
 </html>

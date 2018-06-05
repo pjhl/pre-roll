@@ -18,5 +18,20 @@
         Film #2
       </div>
     </div>
+    <script src="PreRoll.min.js"></script>
+    <script>
+      var preRoll = new PreRoll({
+        selector: '.player'
+      })
+      preRoll.on('initAd', function() {
+        console.log('Init ad emitted')
+      })
+      preRoll.on('startAd', function() {
+        console.log('StartAd ad emitted')
+      })
+      preRoll.on('stopAd', function() {
+        console.log('StopAd ad emitted')
+      })
+    </script>
   </body>
 </html>

@@ -4,6 +4,7 @@ function PlayerStub (options) {
   var active = options.active || Object.keys(videos)[0]
   var changeButtons = document.querySelectorAll(options.changeSelector)
   var player = document.querySelector(options.playerSelector)
+  var onChange = options.onChange || null
   // Lock status
   var locked = false
   // Lock
@@ -22,6 +23,9 @@ function PlayerStub (options) {
     }
     player.innerHTML = '<div class="video">' + name + '</div>'
     active = id.toString()
+    if (typeof onChange === 'function') {
+      onChange(id, name)
+    }
   }
   // On click change serie
   Array.from(changeButtons).forEach(function (el) {

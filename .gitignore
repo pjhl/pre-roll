@@ -68,3 +68,4 @@ typings/
 
 # Webpack dist
 /dist
+/test/site/*.min.js

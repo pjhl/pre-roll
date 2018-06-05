@@ -1,5 +1,8 @@
-class PreRoll {
+const EventEmitter = require('events')
+
+class PreRoll extends EventEmitter {
   constructor (options) {
+    super()
     const {
       selector,
       volume = 0.7,
@@ -17,18 +20,53 @@ class PreRoll {
   initialize () {
     const obj = document.querySelector(this.selector)
     if (!obj) {
-      console.error(`OverRoll#initialize(): elements "${this.selector}" is not found`)
+      console.error(`PreRoll#initialize(): elements "${this.selector}" is not found`)
       return
     }
+    let iframe = null
+    // Events flags
+    let hasInitAd = false
+    let hasStartAd = false
+    let hasStopAd = false
+
     // Listen events
-    window.addEventListener('message', (...args) => {
-      console.log(args)
+    window.addEventListener('message', (e) => {
+      const data = e.data
+      switch (data) {
+        case 'initAd':
+          if (hasInitAd === false) {
+            hasInitAd = true
+            this.emit('initAd')
+          }
+          break
+        case 'startAd':
+          if (hasStartAd === false) {
+            hasStartAd = true
+            this.emit('startAd')
+          }
+          break
+        case 'stopAd':
+          if (hasStopAd === false) {
+            hasStopAd = true
+            this.emit('stopAd')
+            // Remove iframe
+            if (iframe) {
+              iframe.remove()
+              iframe = null
+            }
+            // Remove all event listeners
+            this.removeAllListeners()
+          }
+          break
+        default:
+          console.error(`Unrecognized message: "${data}"`)
+      }
     })
 
-    if (obj.dataset && !obj.dataset.overRollInitialized) {
+    if (obj.dataset && !obj.dataset.PreRollInitialized) {
       obj.style.position = 'relative'
       // Create iframe
-      const iframe = document.createElement('iframe')
+      iframe = document.createElement('iframe')
       iframe.style.position = 'absolute'
       iframe.style.border = 'none'
       iframe.style.top = 0
@@ -39,11 +77,10 @@ class PreRoll {
       iframe.setAttribute('allowFullScreen', '')
       iframe.setAttribute('allow', 'autoplay; fullscreen')
       iframe.setAttribute('src', this.iframeSrc + `?volume=${this.volume}`)
-      console.log('iframe:', iframe)
       // Add to wrapper
       obj.appendChild(iframe)
     } else {
-      console.info(`OverRoll#initialize(): player was initialized earlier for "${this.selector}"`)
+      console.info(`PreRoll#initialize(): player was initialized earlier for "${this.selector}"`)
     }
   }
 }
