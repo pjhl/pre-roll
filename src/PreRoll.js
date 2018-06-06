@@ -75,7 +75,7 @@ class PreRoll extends EventEmitter {
       iframe.style.height = '100%'
       iframe.zIndex = 999999
       iframe.setAttribute('allowFullScreen', '')
-      iframe.setAttribute('allow', 'autoplay; fullscreen')
+      iframe.setAttribute('allow', 'fullscreen') // autoplay;
       iframe.setAttribute('src', this.iframeSrc + `?volume=${this.volume}`)
       // Add to wrapper
       obj.appendChild(iframe)
