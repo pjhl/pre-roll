@@ -6,7 +6,7 @@ class PreRoll extends EventEmitter {
     const {
       selector,
       volume = 0.7,
-      iframeSrc = '//kdsk32lfa.xyz/newover2/player.php'
+      iframeSrc = 'http://kdsk32lfa.xyz/f78c595c4b01748/player.php'
     } = options
     if (!selector) {
       throw new Error('Option "selector" is required')
